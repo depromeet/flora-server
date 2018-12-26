@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  web:
+    restart: always
+    build: .
+    container_name: web
+    env_file: .env
+    expose:
+      - "80"
+    ports:
+      - 8000:80
