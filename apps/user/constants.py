@@ -1,0 +1,4 @@
+PROVIDER_GOOGLE = 'google'
+PROVIDER_TYPE = (
+    (PROVIDER_GOOGLE, '구글'),
+)

@@ -3,6 +3,10 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager,
 )
 
+from .constants import (
+    PROVIDER_TYPE,
+)
+
 
 class UserManager(BaseUserManager):
     # 유저 매니저
@@ -17,7 +21,7 @@ class User(AbstractBaseUser):
     # 유저 모델
     username = models.CharField(
         '아이디',
-        max_legnth=50,
+        max_length=50,
     )
     password = models.CharField(
         '비밀번호',
@@ -49,7 +53,51 @@ class User(AbstractBaseUser):
         verbose_name = '유저'
         verbose_name_plural = '유저들'
 
-    def __init__(self):
+    def __str__(self):
         return self.usernmae
 
+
+class SocialApp(models.Model):
+    provider = models.CharField(
+        '플랫폼 종류',
+        max_length=20,
+        choices=PROVIDER_TYPE,
+    )
+    name = models.CharField(
+        '이름',
+        max_length=30
+    )
+    client_id = models.CharField(
+        '클라이언트 ID',
+        max_length=191
+    )
+    secret = models.CharField(
+        '시크릿',
+        max_length=191
+    )
+    key = models.CharField(
+        '키',
+        max_length=191,
+        blank=True
+    )
+
+    class Meta:
+        db_table = 'social_apps'
+        verbose_name = '소셜 앱'
+        verbose_name_plural = '소셜 앱들'
+
     
+class SocialUser(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='유저'
+    )
+
+    class Meta:
+        db_table = 'social_users'
+        verbose_name = '소셜 유저'
+        verbose_name_plural = '소셜 유저들'
+
+    def __str__(self):
+        return self.user.username
