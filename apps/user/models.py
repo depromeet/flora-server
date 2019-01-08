@@ -107,6 +107,7 @@ class SocialUser(models.Model):
     )
     provider = models.CharField(
         '소셜 플랫폼',
+        max_length=20,
         choices=PROVIDER_TYPE,
         default=PROVIDER_GOOGLE
     )

@@ -12,4 +12,12 @@ class SocialUserLoginSerializer(serializers.Serializer):
         choices=PROVIDER_TYPE,
         default=PROVIDER_GOOGLE
     )
-    
+    code = serializers.CharField(
+        label='코드'
+    )
+    redirect = serializers.CharField(
+        label='리다이렉트 주소'
+    )
+
+    def authenticate(self):
+        
