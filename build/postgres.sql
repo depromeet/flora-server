@@ -1,0 +1,3 @@
+CREATE DATABASE depromeet;
+CREATE USER depromeet WITH PASSWORD '123456';
+GRANT ALL PRIVILEGES ON DATABASE "depromeet" to depromeet;

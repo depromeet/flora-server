@@ -22,6 +22,7 @@ class User(AbstractBaseUser):
     username = models.CharField(
         '아이디',
         max_length=50,
+        unique=True
     )
     password = models.CharField(
         '비밀번호',

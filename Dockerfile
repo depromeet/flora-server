@@ -38,6 +38,9 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
 COPY build/uwsgi_params build/uwsgi.ini ${PROJECT_UWSGI}/
 COPY build/nginx.conf /etc/nginx/sites-available/default
 COPY build/supervisor.conf /etc/supervisor/conf.d/
+COPY build/start.sh ${PROJECT_ROOT}
+
+RUN chmod +x ${PROJECT_ROOT}/start.sh
 
 # 필요한 내용 복사 후 라이브러리 설치
 COPY requirements.txt manage.py ${PROJECT_SRC}/
@@ -49,4 +52,5 @@ COPY utils ${PROJECT_SRC}/utils
 COPY apps ${PROJECT_SRC}/apps
 COPY api ${PROJECT_SRC}/api
 
+ENTRYPOINT ["bash", "start.sh"]
 CMD ["supervisord", "-n"]

@@ -18,3 +18,5 @@ services:
   postgres:
     image: postgres
     container_name: db 
+    volumes:
+      - ./build/postgres.sql:/docker-entrypoint-initdb.d/init.sql
