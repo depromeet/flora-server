@@ -19,32 +19,34 @@ RUN apt-get install -y nginx \
     pip install uwsgi
 
 RUN locale-gen ko_KR.UTF-8
-ENV LANG ko_KR.UTF-8
-ENV LANGUAGE ko_KR.UTF-8
-ENV LC_ALL ko_KR.UTF-8
     
 # 프로젝트 구조 잡기
+
+ENV PROJECT_ROOT /home/ubuntu
+ENV PROJECT_SRC src
+ENV PROJECT_UWSGI uwsgi
+
 RUN mkdir ${PROJECT_ROOT}
 WORKDIR ${PROJECT_ROOT}
 
-RUN mkdir ${PROJECT_SRC} && \
-    mkdir ${PROJECT_UWSGI}
+RUN mkdir "${PROJECT_SRC}" && \
+    mkdir "${PROJECT_UWSGI}"
 
 # 웹 서버 설정
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
-    cd ${PROJECT_UWSGI}
-COPY build/uwsgi_params build/uwsgi.ini ${PROJECT_UWSGI}/
+    cd "${PROJECT_UWSGI}"
+COPY build/uwsgi_params build/uwsgi.ini "${PROJECT_UWSGI}"/
 COPY build/nginx.conf /etc/nginx/sites-available/default
 COPY build/supervisor.conf /etc/supervisor/conf.d/
 
 # 필요한 내용 복사 후 라이브러리 설치
-COPY requirements.txt manage.py ${PROJECT_SRC}/
+COPY requirements.txt manage.py "${PROJECT_SRC}"/
 
 RUN cd ${PROJECT_SRC} && pip install -qq -r requirements.txt
 
-COPY config ${PROJECT_SRC}/config
-COPY utils ${PROJECT_SRC}/utils
-COPY apps ${PROJECT_SRC}/apps
-COPY api ${PROJECT_SRC}/api
+COPY config "${PROJECT_SRC}"/config
+COPY utils "${PROJECT_SRC}"/utils
+COPY apps "${PROJECT_SRC}"/apps
+COPY api "${PROJECT_SRC}"/api
 
 CMD ["supervisord", "-n"]

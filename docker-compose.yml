@@ -5,8 +5,16 @@ services:
     restart: always
     build: .
     container_name: web
+    volumes:
+      - ./utils:${PROJECT_ROOT}/${PROJECT_SRC}/utils
+      - ./config:${PROJECT_ROOT}/${PROJECT_SRC}/config
+      - ./apps:${PROJECT_ROOT}/${PROJECT_SRC}/apps
+      - ./api:${PROJECT_ROOT}/${PROJECT_SRC}/api
     env_file: .env
-    expose:
-      - "80"
     ports:
       - 8000:80
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    container_name: db 
