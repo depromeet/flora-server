@@ -2,19 +2,30 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager,
 )
+from django.contrib.postgres.fields import JSONField
 
 from .constants import (
-    PROVIDER_TYPE,
+    PROVIDER_GOOGLE, PROVIDER_TYPE,
 )
-
 
 class UserManager(BaseUserManager):
     # 유저 매니저
-    def _create_user(self, *args, **kwargs):
-        pass
+    def _create_user(self, username, password, **kwargs):
+        if not username:
+            raise ValueError("아이디는 필수입니다.")
+        
+        user = self.model(
+            username=usernname,
+            **kwargs
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-    def create_superuser(self, *args, **kwargs):
-        pass
+    def create_superuser(self, username, password, **kwargs):
+        kwargs.setdefault('is_admin', True)
+
+        return self._create_user(username, password, **kwargs)
 
 
 class User(AbstractBaseUser):
@@ -39,7 +50,7 @@ class User(AbstractBaseUser):
     )
     is_active = models.BooleanField(
         '활성화 여부',
-        default=False
+        default=True
     )
 
     date_joined = models.DateTimeField(
@@ -62,7 +73,7 @@ class SocialApp(models.Model):
     provider = models.CharField(
         '플랫폼 종류',
         max_length=20,
-        choices=PROVIDER_TYPE,
+        choices=PROVIDER_TYPE
     )
     name = models.CharField(
         '이름',
@@ -93,6 +104,19 @@ class SocialUser(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name='유저'
+    )
+    provider = models.CharField(
+        '소셜 플랫폼',
+        choices=PROVIDER_TYPE,
+        default=PROVIDER_GOOGLE
+    )
+    uid = models.CharField(
+        'UID',
+        max_length=150
+    )
+    extra_data = JSONField(
+        '기타 정보',
+        default=dict
     )
 
     class Meta:

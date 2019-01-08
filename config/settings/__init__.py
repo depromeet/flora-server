@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # 구동 환경 체크
 ENV = os.environ.get('PROJECT_ENV') or 'development'
-print('****Running on %s settings****' % ENV)
+print('****Running on {} settings****'.format(ENV))
 
 # 설정 파일 분기
 COMPONENT_DIR = os.path.join(BASE_DIR, 'config', 'settings', 'components')
@@ -17,6 +17,6 @@ COMPONENTS = [
     in glob.glob(os.path.join(COMPONENT_DIR, '*.py'))
 ]
 SETTINGS = [
-    'environments/%s.py' % ENV,
+    'environments/{}.py'.format(ENV),
 ] + COMPONENTS
 include(*SETTINGS)
