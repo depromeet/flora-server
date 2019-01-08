@@ -29,24 +29,24 @@ ENV PROJECT_UWSGI uwsgi
 RUN mkdir ${PROJECT_ROOT}
 WORKDIR ${PROJECT_ROOT}
 
-RUN mkdir "${PROJECT_SRC}" && \
-    mkdir "${PROJECT_UWSGI}"
+RUN mkdir ${PROJECT_SRC} && \
+    mkdir ${PROJECT_UWSGI}
 
 # 웹 서버 설정
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
-    cd "${PROJECT_UWSGI}"
-COPY build/uwsgi_params build/uwsgi.ini "${PROJECT_UWSGI}"/
+    cd ${PROJECT_UWSGI}
+COPY build/uwsgi_params build/uwsgi.ini ${PROJECT_UWSGI}/
 COPY build/nginx.conf /etc/nginx/sites-available/default
 COPY build/supervisor.conf /etc/supervisor/conf.d/
 
 # 필요한 내용 복사 후 라이브러리 설치
-COPY requirements.txt manage.py "${PROJECT_SRC}"/
+COPY requirements.txt manage.py ${PROJECT_SRC}/
 
 RUN cd ${PROJECT_SRC} && pip install -qq -r requirements.txt
 
-COPY config "${PROJECT_SRC}"/config
-COPY utils "${PROJECT_SRC}"/utils
-COPY apps "${PROJECT_SRC}"/apps
-COPY api "${PROJECT_SRC}"/api
+COPY config ${PROJECT_SRC}/config
+COPY utils ${PROJECT_SRC}/utils
+COPY apps ${PROJECT_SRC}/apps
+COPY api ${PROJECT_SRC}/api
 
 CMD ["supervisord", "-n"]
