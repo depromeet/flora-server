@@ -1,5 +1,7 @@
-# octo-palm-server
-파이널프로젝트 서버 코드
+# Flora 서버
+
+## 설명
+Flora 서버는 `django` + `django rest framework`로 구성되어 있으먀, Dockerized 되어 있다.
 
 ## 시작하기
-`bash start.sh`
+`bash deploy.sh`
