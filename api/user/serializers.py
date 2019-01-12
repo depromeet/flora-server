@@ -20,4 +20,4 @@ class SocialUserLoginSerializer(serializers.Serializer):
     )
 
     def authenticate(self):
-        
+        pass

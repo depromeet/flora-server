@@ -47,10 +47,10 @@ COPY requirements.txt manage.py ${PROJECT_SRC}/
 
 RUN cd ${PROJECT_SRC} && pip install -qq -r requirements.txt
 
-COPY config ${PROJECT_SRC}/config
-COPY utils ${PROJECT_SRC}/utils
-COPY apps ${PROJECT_SRC}/apps
-COPY api ${PROJECT_SRC}/api
+# COPY config ${PROJECT_SRC}/config
+# COPY utils ${PROJECT_SRC}/utils
+# COPY apps ${PROJECT_SRC}/apps
+# COPY api ${PROJECT_SRC}/api
 
 ENTRYPOINT ["bash", "start.sh"]
 CMD ["supervisord", "-n"]

@@ -12,6 +12,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
+    'drf_yasg',
 ]
 # apps 디렉토리에 있는 모든 Application 조회 및 추가
 PROJECT_APPS = [
