@@ -1,9 +1,10 @@
 from django.db import models
 
+from utils.model import DateTimeModel
 from apps.user.models import User
 
 
-class Trip(models.Model):
+class Trip(DateTimeModel):
     # 여행 모델
     name = models.CharField(
         '제목',
@@ -19,6 +20,7 @@ class Trip(models.Model):
         db_table = 'trip'
         verbose_name = '여행'
         verbose_name_plural = '여행들'
+        
 
     def __str__(self):
         return self.name

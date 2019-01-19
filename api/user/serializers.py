@@ -21,3 +21,7 @@ class SocialUserLoginSerializer(serializers.Serializer):
 
     def authenticate(self):
         pass
+
+
+class GuestUstLoginSerializer(serializers.Serializer):
+    pass
