@@ -4,6 +4,13 @@ from utils.model import DateTimeModel
 from apps.user.models import User
 
 
+def trip_image_path(instance, filename):
+    return '{}/{}'.format(
+        instance.post.pk,
+        filename
+    )
+
+
 class Trip(DateTimeModel):
     # 여행 모델
     name = models.CharField(
@@ -14,6 +21,10 @@ class Trip(DateTimeModel):
         User,
         on_delete=models.CASCADE,
         verbose_name='유저'
+    )
+    image = models.ImageField(
+        '대표 이미지',
+        upload_to=trip_image_path
     )
 
     class Meta:
