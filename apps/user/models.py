@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
             raise ValueError("아이디는 필수입니다.")
         
         user = self.model(
-            username=usernname,
+            username=username,
             **kwargs
         )
         user.set_password(password)
@@ -42,6 +42,7 @@ class User(AbstractBaseUser):
     last_login = models.DateTimeField(
         '마지막 로그인',
         blank=True,
+        null=True,
     )
 
     is_admin = models.BooleanField(
@@ -66,7 +67,7 @@ class User(AbstractBaseUser):
         verbose_name_plural = '유저들'
 
     def __str__(self):
-        return self.usernmae
+        return self.username
 
 
 class SocialApp(models.Model):
